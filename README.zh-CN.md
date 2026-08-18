@@ -23,8 +23,8 @@ OpenAI 兼容的 [InferencePort AI](https://inferenceport.ai) 免费多模态 AP
 ## 快速开始
 
 ```bash
-git clone https://github.com/b3b41020/inferenceport-proxy.git
-cd inferenceport-proxy
+git clone https://github.com/b3b41020/free-multimodal-proxy.git
+cd free-multimodal-proxy
 docker compose up -d --build
 ```
 

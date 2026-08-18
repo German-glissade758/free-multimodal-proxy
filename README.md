@@ -23,8 +23,8 @@ No registration. No API key. Works out of the box with any OpenAI SDK — text c
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-name>/inferenceport-proxy.git
-cd inferenceport-proxy
+git clone https://github.com/b3b41020/free-multimodal-proxy.git
+cd free-multimodal-proxy
 docker compose up -d --build
 ```
 
