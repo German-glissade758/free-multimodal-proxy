@@ -1,5 +1,7 @@
 # inferenceport-proxy
 
+**English** | [简体中文](./README.zh-CN.md)
+
 OpenAI-compatible reverse proxy for [InferencePort AI](https://inferenceport.ai)'s free multimodal API.
 
 No registration. No API key. Works out of the box with any OpenAI SDK — text chat, image generation, and video generation (sync + async) through one simple endpoint.
