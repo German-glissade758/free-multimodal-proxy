@@ -132,6 +132,30 @@ networks:
 - This is a **free tier** proxy. The upstream enforces per-identity quotas (chat ~50/day, images ~10/day, videos ~3/day per anonymous identity on the web app); the direct HTTP layer is currently more lenient but may tighten at any time.
 - Audio and 3D endpoints depend on upstream availability and may return errors.
 - Use responsibly and respect the upstream service's terms.
+- This project is an independent open-source implementation and is NOT affiliated with, endorsed by, or sponsored by InferencePort AI or any of its parent companies, subsidiaries, or partners. "InferencePort" is a trademark of its        
+ respective owner, used here only for identification purposes.                                                                                                                                                                               
+                                                                                                                                                                                                                                             
+ By using this software, you acknowledge and agree that:                                                                                                                                                                                     
+                                                                                                                                                                                                                                             
+ 1. Free-tier limitations. The upstream service enforces quotas on its free tier (e.g. per-identity daily limits on chat / image / video generation). These quotas are determined entirely by the upstream and may be tightened, removed, or 
+ changed at any time without notice. This project does not and cannot guarantee availability, reliability, or quota levels.                                                                                                                  
+                                                                                                                                                                                                                                             
+ 2. No content review. The upstream API proxied by this software may not apply content moderation. You are solely responsible for the content you generate, transmit, or store using this software, and for ensuring it complies with all    
+ applicable laws, regulations, and the terms of service of the upstream provider.                                                                                                                                                            
+                                                                                                                                                                                                                                             
+ 3. Use at your own risk. This software is provided on an "AS IS" and "AS AVAILABLE" basis, without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular         
+ purpose, or non-infringement. In no event shall the authors or contributors be liable for any claim, damages, or other liability arising from or in connection with the use of this software.                                               
+                                                                                                                                                                                                                                             
+ 4. Compliance. You are responsible for complying with the upstream provider's terms of service and all applicable local laws. Do not use this software for any illegal, abusive, or unauthorized purposes. The upstream may block or        
+ rate-limit your access at any time; this project is not responsible for any resulting loss.                                                                                                                                                 
+                                                                                                                                                                                                                                             
+ 5. Upstream dependency. This project depends entirely on a third-party public service that we do not control. The upstream may be discontinued, change its API, or become inaccessible at any time, which would render this software        
+ non-functional. We make no promises about the long-term viability of this project.                                                                                                                                                          
+                                                                                                                                                                                                                                             
+ 6. Indemnification. By using this software, you agree to indemnify and hold harmless the authors and contributors from and against any claims, liabilities, damages, losses, or expenses arising out of your use of the software or         
+ violation of these terms.                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                             
+ For production or commercial use, please refer to the official InferencePort AI service and its licensing terms.
 
 ## Credits
 
