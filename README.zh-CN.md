@@ -135,7 +135,7 @@ networks:
 
 ## 致谢
 
-- https://linux.do/
+- https://linux.do - LINUX DO
 - [InferencePort AI](https://inferenceport.ai) — 被代理的免费多模态服务
 - [sharktide-lightning](https://huggingface.co/spaces/sharktide/lightning) — 上游 HF Space API
 
