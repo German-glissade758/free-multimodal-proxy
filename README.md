@@ -135,6 +135,7 @@ networks:
 
 ## Credits
 
+- https://linux.do - LINUX DO
 - [InferencePort AI](https://inferenceport.ai) — the free multimodal service this proxies
 - [sharktide-lightning](https://huggingface.co/spaces/sharktide/lightning) — upstream HF Space API
 
