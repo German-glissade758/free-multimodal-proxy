@@ -1,0 +1,21 @@
+services:
+  inferenceport-proxy:
+    build: .
+    container_name: inferenceport-proxy
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - UPSTREAM_URL=https://sharktide-lightning.hf.space
+      - RETRIES=3
+      - CONNECT_TIMEOUT=8
+      - READ_TIMEOUT=600
+      - CHAT_READ_TIMEOUT=120
+      - MODEL_CACHE_TTL=300
+      # Optional: set a Bearer token to protect the proxy
+      # - PROXY_TOKEN=change-me
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
